@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// 971204, Arne, Fredrik, Kim &amp; Paul.
+// Fairmont Hotel, San Francisco.
+</declaration><template><name x="32" y="16">Signal</name><parameter>bool &amp;activated, urgent chan &amp;reached, urgent chan &amp;closed1, urgent chan &amp;closed2</parameter><declaration>clock s;</declaration><location id="id0" x="0" y="56"><name x="-48" y="24">Red</name></location><location id="id1" x="184" y="224"><name x="208" y="208">Green</name><label kind="invariant" x="208" y="224">s&lt;=4</label></location><location id="id2" x="184" y="56"><name x="168" y="16">Yellow</name><label kind="invariant" x="208" y="56">s&lt;=8</label></location><location id="id3" x="0" y="224"><name x="-8" y="240">idle</name></location><init ref="id3"/><transition><source ref="id1"/><target ref="id3"/><label kind="guard" x="32" y="194">s&gt;=4</label><label kind="assignment" x="48" y="232">activated = false,
+s=0</label><nail x="128" y="224"/></transition><transition><source ref="id3"/><target ref="id3"/><label kind="synchronisation" x="-80" y="192">closed1!</label><nail x="-40" y="248"/><nail x="-40" y="224"/></transition><transition><source ref="id3"/><target ref="id0"/><label kind="synchronisation" x="-64" y="88">reached?</label><label kind="assignment" x="-104" y="112">activated = true</label></transition><transition><source ref="id2"/><target ref="id1"/><label kind="guard" x="200" y="144">s==8</label><label kind="assignment" x="200" y="168">s=0</label></transition><transition><source ref="id0"/><target ref="id2"/><label kind="synchronisation" x="72" y="56">closed2?</label><label kind="assignment" x="96" y="72">s=0</label></transition><transition><source ref="id0"/><target ref="id0"/><label kind="synchronisation" x="56" y="32">closed1!</label><nail x="48" y="32"/><nail x="48" y="56"/></transition></template><template><name x="32" y="16">User</name><parameter>bool &amp;activated, urgent chan &amp;reached</parameter><declaration>clock s2;</declaration><location id="id4" x="200" y="128"></location><location id="id5" x="32" y="128"><name x="8" y="96">idle</name></location><init ref="id5"/><transition><source ref="id5"/><target ref="id4"/><label kind="guard" x="88" y="176">!activated</label><label kind="assignment" x="104" y="192">s2=0</label><nail x="112" y="168"/></transition><transition><source ref="id4"/><target ref="id5"/><label kind="synchronisation" x="96" y="56">reached!</label><nail x="120" y="80"/></transition></template><system>bool activated1, activated2,activated3,activated4;
+urgent chan reached1, reached2,reached3,reached4;
+urgent chan closed1, closed2;
+
+SignalHighway1 = Signal(activated1, reached1, closed1, closed2);
+Signal2G11 = Signal(activated2, reached2, closed2, closed1);
+SignalHighway2 = Signal(activated1, reached1, closed1, closed2);
+SignalNUST = Signal(activated2, reached2, closed2, closed1);
+User1 = User(activated1, reached1);
+User2 = User(activated2, reached2);
+User3 = User(activated3, reached3);
+User4 = User(activated4, reached4);
+system SignalHighway1,Signal2G11,SignalHighway2,SignalNUST, User1, User2,User3,User4;</system></nta>
